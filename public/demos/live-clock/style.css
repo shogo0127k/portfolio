@@ -1,0 +1,28 @@
+/* reset */
+
+html {
+  box-sizing: border-box;
+}
+
+*,
+*::before,
+*::after{
+box-sizing: inherit;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+.clock_container {
+  height: 100dvh;
+  display: grid;
+  place-content: center;
+  background: url(./images/bgimage1.jpg) no-repeat center / cover ;
+}
+
+#outPutField {
+  color: #ffffff; ;
+  font-size: 7.2vw;
+}

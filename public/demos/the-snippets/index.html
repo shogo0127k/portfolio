@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Snippets — UI &amp; UX パターン集</title>
+<meta name="description" content="フロントエンドで頻出するUI/UXパターンを、動くデモ＋3レベルのコード＋使いどころでまとめたリファレンス。">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><line x1="12" y1="2" x2="12" y2="5"/><line x1="12" y1="19" x2="12" y2="22"/><line x1="2" y1="12" x2="5" y2="12"/><line x1="19" y1="12" x2="22" y2="12"/><line x1="4.9" y1="4.9" x2="6.8" y2="6.8"/><line x1="17.2" y1="17.2" x2="19.1" y2="19.1"/><line x1="4.9" y1="19.1" x2="6.8" y2="17.2"/><line x1="17.2" y1="6.8" x2="19.1" y2="4.9"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></symbol>
+  <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></symbol>
+  <symbol id="i-right" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></symbol>
+</svg>
+
+<div class="cover-top">
+  <button class="themeToggle" id="themeBtn" aria-label="テーマ切替">
+    <svg class="ic"><use href="#i-moon"></use></svg><span id="themeLabel">ダークモード</span>
+  </button>
+</div>
+
+<header class="hero">
+  <p class="kicker">UI &amp; UX Pattern Library</p>
+  <h1>The Snippets</h1>
+  <p class="lead">
+    フロントエンドで頻出する <b>23 のUI/UXパターン</b> を、
+    動くデモ ＋ 初心者・中級者・上級者の3レベルのコード ＋ 使いどころ で。
+    依存ライブラリなし。必要な部分だけコピーして使えます。
+  </p>
+  <div class="cta-row">
+    <a class="cta primary" href="patterns/#ui">UIパターンを見る <svg class="ic"><use href="#i-right"></use></svg></a>
+    <a class="cta secondary" href="patterns/#ux">UXパターンを見る <svg class="ic"><use href="#i-right"></use></svg></a>
+  </div>
+</header>
+
+<main class="cover-main">
+
+  <!-- 何ができるか -->
+  <section class="cover-sec">
+    <h2>このサイトは何か</h2>
+    <p class="sub">「作っただけ」で終わらせない、実務でそのまま使える型のリファレンス。</p>
+    <div class="grid">
+      <div class="tile">
+        <h3><span class="dot"></span>動くデモ</h3>
+        <p>各パターンが実際に動く。挙動を触って確認してからコードを取れます。</p>
+      </div>
+      <div class="tile">
+        <h3><span class="dot"></span>3レベルのコード</h3>
+        <p>初心者（最小構成）→ 中級者（実務寄り）→ 上級者（例外・アクセシビリティ）をタブで比較。</p>
+      </div>
+      <div class="tile">
+        <h3><span class="dot"></span>行単位の解説</h3>
+        <p>コードの「どの行が何をしているか」を箇条書きで説明。読んで理解できます。</p>
+      </div>
+      <div class="tile">
+        <h3><span class="dot"></span>使いどころ</h3>
+        <p>どんな場面で使うパターンかを各項目に明記。選定の判断材料に。</p>
+      </div>
+      <div class="tile">
+        <h3><span class="dot"></span>UI 13 / UX 10</h3>
+        <p>見た目の部品（UI）と体験の作法（UX）の2コレクション。右上で切替。</p>
+      </div>
+      <div class="tile">
+        <h3><span class="dot"></span>1ファイル感覚</h3>
+        <p>依存なし。HTML/CSS/JSの素の知識だけで動く。コピペで即利用。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ベスト提案 -->
+  <section class="cover-sec">
+    <h2>ベスト提案 — これだけは</h2>
+    <p class="sub">全部やる前に。UI/UXとして“効く”最優先パターンの厳選リスト。</p>
+    <div class="best">
+      <div class="col">
+        <h3>UI：まず押さえる6つ</h3>
+        <ul>
+          <li><svg class="ic"><use href="#i-check"></use></svg><span>モーダル<small>ネイティブ &lt;dialog&gt; でEsc・背景・フォーカスを標準対応</small></span></li>
+          <li><svg class="ic"><use href="#i-check"></use></svg><span>ダークモード<small>localStorage＋OS設定追従。今や標準装備</small></span></li>
+          <li><svg class="ic"><use href="#i-check"></use></svg><span>タブ（ARIA＋矢印キー）<small>キーボードだけで操作できる形が正解</small></span></li>
+          <li><svg class="ic"><use href="#i-check"></use></svg><span>ハンバーガー（フォーカストラップ）<small>開いた時に背景へ逃げない実装</small></span></li>
+          <li><svg class="ic"><use href="#i-check"></use></svg><span>フォームバリデーション<small>Constraint Validation APIで二重管理を排除</small></span></li>
+          <li><svg class="ic"><use href="#i-check"></use></svg><span>debounce / throttle<small>入力・スクロール負荷対策の必修ユーティリティ</small></span></li>
+        </ul>
+      </div>
+      <div class="col">
+        <h3>UX：必須体験7つ（MVP）</h3>
+        <ul>
+          <li><svg class="ic"><use href="#i-check"></use></svg><span>スケルトンスクリーン<small>体感速度↑＋レイアウトのガタつき防止</small></span></li>
+          <li><svg class="ic"><use href="#i-check"></use></svg><span>空状態（Empty State）<small>0件で迷子にせず次の行動へ誘導</small></span></li>
+          <li><svg class="ic"><use href="#i-check"></use></svg><span>エラー状態とリカバリ<small>原因・対処・戻り道の3点に答える</small></span></li>
+          <li><svg class="ic"><use href="#i-check"></use></svg><span>検証のタイミング<small>入力中は責めず、離れた時に検証</small></span></li>
+          <li><svg class="ic"><use href="#i-check"></use></svg><span>親切なマイクロコピー<small>人間的・前向き・次の一手を示す</small></span></li>
+          <li><svg class="ic"><use href="#i-check"></use></svg><span>フォーカス可視化<small>:focus-visible。キーボード操作の生命線</small></span></li>
+          <li><svg class="ic"><use href="#i-check"></use></svg><span>reduced-motion 対応<small>動きに敏感な人への必須配慮</small></span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 推奨レベル -->
+  <section class="cover-sec">
+    <h2>推奨レベルの考え方</h2>
+    <p class="sub">各パターンには「推奨レベル」バッジを付けています。指針は次の通り。</p>
+    <div class="levelguide">
+      <p><b>既定は「中級」。</b> 関数化され再利用しやすく、実務にそのまま載せられる落とし所。まずここを基準に。</p>
+      <p><b>本番は「上級」を適用。</b> アクセシビリティ・例外・競合対応が要る所。特に <b>タブ／ハンバーガー／フォームバリデーション</b> は上級推奨。</p>
+      <p><b>「初級」で十分な所もある。</b> アコーディオン・スムーススクロール・reduced-motion はネイティブ／最小構成が最も堅実。</p>
+    </div>
+  </section>
+
+</main>
+
+<footer class="cover-foot">The Snippets — 2026-05-19 ・ UI &amp; UX パターン集（コピペ可・依存なし）</footer>
+
+<script src="app.js" defer></script>
+</body>
+</html>

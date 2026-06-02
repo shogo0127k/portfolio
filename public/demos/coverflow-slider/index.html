@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hello Swiper</title>
+    <link rel="stylesheet" href="./style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.js"></script>
+    <!-- module にしないこと: file:// 直開きが CORS で壊れるため -->
+    <script src="./script.js" defer></script>
+  </head>
+  <body>
+    <header class="topbar">
+      <h1 class="brand">Hello Swiper</h1>
+      <nav class="tabs" id="tabs" aria-label="カテゴリ">
+        <button class="tab is-active" data-kw="nature">Nature</button>
+        <button class="tab" data-kw="animals">Animals</button>
+        <button class="tab" data-kw="travel">Travel</button>
+        <button class="tab" data-kw="architecture">Architecture</button>
+      </nav>
+    </header>
+
+    <main class="stage">
+      <div class="swiper">
+        <div class="swiper-wrapper" id="slides"></div>
+        <div class="swiper-pagination"></div>
+        <div class="swiper-button-prev"></div>
+        <div class="swiper-button-next"></div>
+      </div>
+    </main>
+
+    <div class="modal" id="modal" hidden>
+      <div class="modal__backdrop" data-close></div>
+      <div class="modal__dialog" role="dialog" aria-modal="true">
+        <button class="modal__close" data-close aria-label="閉じる">✕</button>
+        <figure class="modal__figure">
+          <img id="modalImg" src="" alt="" />
+        </figure>
+        <div class="modal__info">
+          <p class="modal__desc" id="modalDesc"></p>
+          <div class="modal__meta" id="modalMeta"></div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,70 @@
+/* Shogo Kamino — Portfolio (Next.js) / テーマ: Crisp Editorial
+   モバイル専用レイアウト（モバイルファースト）。body は画面幅 100% に追従し、
+   フォントサイズ・余白・カラム数だけをモバイル向けに固定。
+   PC 向けレスポンシブ分岐（@media min-width / clamp）は使わない。 */
+
+:root {
+  --paper: #ffffff;
+  --paper-card: #e9f1f8;
+  --ink: #0e1217;
+  --ink-soft: #3c4651;
+  --muted: #7c8893;
+  --line: rgba(14, 18, 23, 0.12);
+  --accent: #0a93d1;
+  /* --font-cormorant は layout.tsx の next/font が注入 */
+  --serif: var(--font-cormorant), "Cormorant Garamond", "Hiragino Mincho ProN", serif;
+  --sans: -apple-system, "Hiragino Sans", "Noto Sans JP", sans-serif;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html {
+  scroll-behavior: smooth;
+  /* 横スクロール完全抑止（hidden より厳格な clip。子の position:sticky 等を壊さない） */
+  overflow-x: clip;
+  max-width: 100vw;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  width: 100%;
+  max-width: 100vw;
+  overflow-x: clip;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--sans);
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* メディア要素のデフォルト overflow 対策 */
+img, svg, video, canvas {
+  max-width: 100%;
+  height: auto;
+}
+
+a { color: inherit; text-decoration: none; }
+
+/* 本文 */
+.prose {
+  font-size: 14px;
+  color: var(--ink-soft);
+}
+
+/* スクロール出現 */
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+[data-reveal].in-view { opacity: 1; transform: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.001ms !important;
+    animation-delay: 0ms !important;
+    transition-duration: 0.001ms !important;
+  }
+  html { scroll-behavior: auto; }
+}

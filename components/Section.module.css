@@ -1,0 +1,24 @@
+.section {
+  padding:
+    clamp(80px, 12vw, 140px)
+    calc(clamp(28px, 7vw, 80px) + env(safe-area-inset-right))
+    clamp(80px, 12vw, 140px)
+    calc(clamp(28px, 7vw, 80px) + env(safe-area-inset-left));
+  border-top: 1px solid var(--line);
+}
+
+.index {
+  margin: 0 0 28px;
+  font-size: 11px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.title {
+  margin: 0 0 20px;
+  font-family: var(--serif);
+  font-weight: 500;
+  font-size: 30px;
+  line-height: 1.2;
+}

@@ -1,0 +1,276 @@
+  /* Warm Editorial — Mocha Mousse パレット（Behance / 2026 トレンド参照） */
+  :root {
+    --bg:#f4f0e9; --card:#ffffff; --text:#2a2420; --muted:#857a6b;
+    --border:#e7e0d3; --accent:#b5683e; --accent-2:#a47864; --accent-text:#fff;
+    --code-bg:#241d18; --code-text:#ede5da;
+    --ok:#5c7f4f;
+    --shadow:0 1px 2px rgba(74,54,38,.06),0 14px 34px rgba(74,54,38,.09);
+  }
+  html[data-theme="dark"] {
+    /* 明度差を広げて視認性を確保（page < card < 罫線、code は最暗） */
+    --bg:#15110e; --card:#221c17; --text:#f2ece2; --muted:#b6a795;
+    --border:#463a30; --accent:#e0a268; --accent-2:#cda98c; --accent-text:#2a1c10;
+    --code-bg:#0f0c09; --code-text:#f0e9dd;
+    --ok:#8fae73;
+    --shadow:0 1px 3px rgba(0,0,0,.45),0 16px 38px rgba(0,0,0,.55);
+  }
+  * { box-sizing:border-box; }
+  body {
+    margin:0;
+    font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Segoe UI",Roboto,sans-serif;
+    background:var(--bg); color:var(--text); line-height:1.65;
+    border-top:3px solid var(--accent);
+    transition:background .2s,color .2s;
+  }
+  .ic { width:1em; height:1em; stroke:currentColor; stroke-width:2;
+        stroke-linecap:round; stroke-linejoin:round; fill:none; vertical-align:-.125em; }
+
+  header.top {
+    position:sticky; top:0; z-index:40; display:flex; align-items:center;
+    justify-content:space-between; gap:16px;
+    padding:14px 22px; background:var(--card); border-bottom:1px solid var(--border);
+  }
+  .brand { display:flex; align-items:center; gap:10px; min-width:0; }
+  .brand h1 { font-size:19px; margin:0; font-weight:800; letter-spacing:-.01em; }
+  .brand-title { text-decoration:none; color:inherit; }
+  .brand-sub { font-size:12.5px; color:var(--muted); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .home-link { display:flex; align-items:center; justify-content:center; width:34px; height:34px;
+    border:1px solid var(--border); border-radius:9px; color:var(--muted); font-size:18px;
+    text-decoration:none; flex:none; }
+  .home-link:hover { color:var(--text); background:color-mix(in srgb,var(--text) 6%,var(--card)); }
+  /* UI / UX 切替（セグメンテッドコントロール） */
+  .viewswitch { display:flex; padding:3px; gap:2px; background:color-mix(in srgb,var(--text) 6%,var(--card));
+    border-radius:10px; flex:none; }
+  .viewswitch .vs { border:none; background:none; cursor:pointer; font-weight:700;
+    font-size:13px; color:var(--muted); padding:6px 18px; border-radius:8px; transition:.15s; }
+  .viewswitch .vs:hover { color:var(--text); }
+  .viewswitch .vs.active { background:var(--accent); color:var(--accent-text); }
+  /* MVP / Nice to have バッジ */
+  .badge { display:inline-block; font-size:10.5px; font-weight:700; letter-spacing:.06em;
+    padding:3px 9px; border-radius:999px; vertical-align:middle; margin-left:10px; }
+  .badge.mvp { background:var(--accent); color:var(--accent-text); }
+  .badge.nth { background:transparent; color:var(--muted); border:1px solid var(--border); }
+  .badge.rec { background:color-mix(in srgb,var(--accent) 14%,var(--card)); color:var(--accent);
+    border:1px solid color-mix(in srgb,var(--accent) 35%,var(--card)); margin-left:8px; }
+  .drawer .navhead { font-size:11px; font-weight:700; letter-spacing:.12em; text-transform:uppercase;
+    color:var(--muted); margin:14px 0 4px; padding:0 10px; }
+  .drawer .navhead:first-child { margin-top:0; }
+  @media (max-width:560px){ .brand-sub { display:none; } .viewswitch .vs { padding:6px 14px; } }
+
+  .header-right { display:flex; align-items:center; gap:12px; flex:none; }
+  .hamburger {
+    width:42px; height:42px; display:flex; align-items:center; justify-content:center;
+    background:var(--card); color:var(--text); border:1px solid var(--border);
+    border-radius:10px; cursor:pointer; font-size:22px; flex:none;
+  }
+  .hamburger:hover { background:color-mix(in srgb,var(--text) 6%,var(--card)); }
+  .drawer {
+    position:fixed; top:0; right:0; z-index:80; width:280px; max-width:84vw; height:100%;
+    background:var(--card); border-left:1px solid var(--border);
+    box-shadow:-8px 0 30px rgba(0,0,0,.18);
+    transform:translateX(100%); transition:transform .25s ease;
+    display:flex; flex-direction:column; padding:18px;
+  }
+  .drawer.open { transform:translateX(0); }
+  .drawer-head { display:flex; align-items:center; justify-content:space-between; margin-bottom:10px; }
+  .drawer-head strong { font-size:15px; }
+  .drawer nav { overflow-y:auto; }
+  .drawer a { display:block; padding:8px 10px; color:var(--muted); text-decoration:none; border-radius:7px; font-size:14px; }
+  .drawer a:hover { background:var(--bg); color:var(--text); }
+  .drawer .iconbtn { background:none; border:none; color:var(--text); cursor:pointer; font-size:22px; padding:4px; }
+  .overlay { position:fixed; inset:0; z-index:75; background:rgba(0,0,0,.4); opacity:0; pointer-events:none; transition:opacity .25s; }
+  .overlay.open { opacity:1; pointer-events:auto; }
+  .theme-row { margin-top:auto; padding-top:14px; border-top:1px solid var(--border); }
+
+  main { max-width:880px; margin:0 auto; padding:26px 20px 90px; }
+
+  /* ---- 視覚階層: 「カード」だけが唯一の箱。内側は罫線・余白・ラベルで誘導 ---- */
+  .intro { background:var(--card); border:1px solid var(--border); border-radius:14px; padding:26px 30px; margin-bottom:30px; box-shadow:var(--shadow); }
+  .intro h2 { margin:0 0 12px; font-size:21px; padding-left:14px; border-left:3px solid var(--accent); }
+  .intro p { margin:0; }
+  .intro ul { margin:12px 0 0; padding-left:20px; color:var(--muted); }
+  .intro li { margin:5px 0; }
+  .intro .lvlkey { display:flex; gap:8px; flex-wrap:wrap; margin-top:18px; }
+  .intro .lvlkey span { font-size:12.5px; padding:5px 12px; border-radius:999px;
+    background:color-mix(in srgb,var(--accent) 8%,var(--card)); color:var(--muted); }
+  .intro .lvlkey b { color:var(--text); }
+
+  section.snippet { background:var(--card); border:1px solid var(--border); border-radius:14px;
+    padding:28px 30px; margin-bottom:20px; box-shadow:var(--shadow); scroll-margin-top:80px; }
+  /* 視線の起点: 番号付き見出し（アクセント罫を全要素の左基準に揃える） */
+  section.snippet h2 { margin:0 0 8px; font-size:19px; padding-left:14px;
+    border-left:3px solid var(--accent); letter-spacing:.01em; }
+  section.snippet .desc { color:var(--muted); margin:0 0 18px; font-size:14px; padding-left:14px; }
+
+  /* 使いどころ: ページ内で唯一の「塗り」帯。次に目を留めるべき場所を1つに固定 */
+  .use { display:flex; gap:10px; align-items:flex-start; margin:0 0 22px;
+    padding:13px 16px; font-size:13.5px; line-height:1.6;
+    border-left:3px solid var(--accent); border-radius:0 8px 8px 0;
+    background:color-mix(in srgb,var(--accent) 7%,var(--card)); }
+  .use .ic { margin-top:3px; flex:none; color:var(--accent); font-size:16px; }
+  .use b { color:var(--accent); } .use span { color:var(--text); }
+
+  /* デモ: 中立色のインセットで一段沈め、操作領域だと一目で分かる */
+  .demo { background:color-mix(in srgb,var(--text) 4%,var(--card));
+    border-radius:10px; padding:20px; margin:0 0 22px; }
+  .demo-label, .explain h4 { font-size:11px; font-weight:700; letter-spacing:.13em;
+    text-transform:uppercase; color:var(--muted); margin:0 0 12px; }
+
+  /* レベルタブ: 外枠を排し、下線インジケータだけで切替を示す */
+  .levels { margin-top:4px; }
+  .level-tabs { display:flex; gap:4px; border-bottom:1px solid var(--border); margin-bottom:18px; }
+  .level-tabs .lvl {
+    flex:1; padding:10px 8px; background:none; border:none; cursor:pointer;
+    color:var(--muted); font-size:14px; font-weight:600;
+    border-bottom:2px solid transparent; margin-bottom:-1px; transition:color .15s;
+  }
+  .level-tabs .lvl:hover { color:var(--text); }
+  .level-tabs .lvl.active { color:var(--accent); border-bottom-color:var(--accent); }
+  .level-panel { padding:0; }
+  .lvl-note { font-size:13.5px; color:var(--muted); margin:0 0 14px; line-height:1.65; }
+  .lvl-note b { color:var(--text); }
+
+  /* コード言語サブタブ（HTML / CSS / JS をそれぞれコピー可能に） */
+  .code-set { border:1px solid var(--border); border-radius:10px; overflow:hidden; }
+  .code-tabs { display:flex; gap:2px; padding:6px 6px 0; background:color-mix(in srgb,var(--text) 4%,var(--card)); }
+  .code-tabs .ct { border:none; background:none; cursor:pointer; font:inherit;
+    font-size:12px; font-weight:700; letter-spacing:.04em; color:var(--muted);
+    padding:7px 16px; border-radius:8px 8px 0 0; }
+  .code-tabs .ct:hover { color:var(--text); }
+  .code-tabs .ct.active { color:var(--accent); background:var(--code-bg); }
+  .code-set .code-pane .code-wrap pre { border-radius:0; }
+  .code-set .code-pane[hidden] { display:none; }
+
+  /* コード: 最も濃いブロック＝視線の着地点（このページの主役） */
+  .code-wrap { position:relative; }
+  .code-wrap pre {
+    margin:0; background:var(--code-bg); color:var(--code-text); padding:18px;
+    border-radius:10px; overflow-x:auto; font-size:12.5px;
+    font-family:"SF Mono",ui-monospace,Menlo,Consolas,monospace; line-height:1.6;
+  }
+  .copy-btn {
+    position:absolute; top:10px; right:10px; display:inline-flex; align-items:center; gap:6px;
+    background:rgba(255,255,255,.1); color:#f0e9dd; border:1px solid rgba(255,255,255,.18);
+    border-radius:7px; padding:5px 12px; font-size:12px; cursor:pointer; transition:background .15s;
+  }
+  .copy-btn:hover { background:rgba(255,255,255,.2); }
+  .copy-btn.copied { background:var(--ok); border-color:var(--ok); color:#fff; }
+  .copy-btn .ic { font-size:14px; }
+
+  /* コード解説: 箱にせず、薄い区切り線＋小ラベルで「従属情報」と示す */
+  .explain { margin-top:16px; padding-top:14px; border-top:1px solid var(--border); }
+  .explain h4 { margin:0 0 10px; }
+  .explain ul { margin:0; padding-left:18px; }
+  .explain li { margin:6px 0; font-size:13px; color:var(--muted); line-height:1.65; }
+  .explain li b { color:var(--text); }
+  .explain code { background:color-mix(in srgb,var(--accent) 12%,var(--card));
+    border-radius:4px; padding:1px 5px; font-size:12px; color:var(--text); }
+
+  /* さらに先へ: 次の一手（MVP / Nice to have）。視線の最後の到達点 */
+  .next { margin-top:18px; padding:16px 18px; border-radius:10px;
+    background:color-mix(in srgb,var(--accent) 6%,var(--card));
+    border:1px solid color-mix(in srgb,var(--accent) 22%,var(--card)); }
+  .next h4 { margin:0 0 12px; font-size:12px; font-weight:700; letter-spacing:.1em;
+    text-transform:uppercase; color:var(--accent); }
+  .next .nx { border-top:1px solid color-mix(in srgb,var(--accent) 14%,var(--card)); }
+  .next .nx:first-of-type { border-top:none; }
+  .next summary { display:flex; gap:10px; align-items:flex-start; cursor:pointer;
+    padding:9px 0; font-size:13.5px; line-height:1.6; color:var(--text); list-style:none; }
+  .next summary::-webkit-details-marker { display:none; }
+  .next summary::after { content:'＋'; margin-left:auto; padding-left:10px;
+    color:var(--muted); font-weight:700; flex:none; }
+  .next .nx[open] summary::after { content:'－'; }
+  .next summary:hover { color:var(--accent); }
+  .next summary .badge { margin-left:0; flex:none; margin-top:1px; }
+  .next .nx-body { padding:2px 0 12px; }
+  .next .nx-body .code-wrap pre { font-size:12px; }
+
+  .btn { display:inline-flex; align-items:center; gap:7px; background:var(--accent);
+    color:var(--accent-text); border:none; padding:9px 16px; border-radius:8px;
+    font-size:14px; font-weight:600; cursor:pointer; }
+  .btn.ghost { background:transparent; color:var(--accent); border:1px solid var(--accent); }
+  input,textarea { font:inherit; padding:9px 12px; border:1px solid var(--border);
+    border-radius:8px; background:var(--card); color:var(--text); width:100%; }
+  .pw-wrap { position:relative; max-width:320px; }
+  .pw-wrap .pw-toggle { position:absolute; right:8px; top:50%; transform:translateY(-50%);
+    background:none; border:none; cursor:pointer; color:var(--muted); font-size:18px; padding:4px; display:flex; }
+  footer { text-align:center; color:var(--muted); font-size:13px; padding:36px 0 50px; }
+
+  /* UX デモ用 + ページ自身もUX原則を実践 */
+  .skeleton { border-radius:6px;
+    background:linear-gradient(90deg,
+      color-mix(in srgb,var(--text) 7%,var(--card)),
+      color-mix(in srgb,var(--text) 15%,var(--card)),
+      color-mix(in srgb,var(--text) 7%,var(--card)));
+    background-size:200% 100%; animation:sk 1.2s linear infinite; }
+  @keyframes sk { to { background-position:-200% 0; } }
+  .skeleton + .skeleton { margin-top:8px; }
+  :focus-visible { outline:2px solid var(--accent); outline-offset:2px; border-radius:6px; }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration:.01ms !important; transition-duration:.01ms !important;
+      scroll-behavior:auto !important;
+    }
+  }
+
+  /* ===================== 表紙（紹介ページ） ===================== */
+  .cover-top { display:flex; justify-content:flex-end; padding:16px 22px; }
+  .cover-top .themeToggle { display:flex; align-items:center; gap:7px; background:none;
+    border:1px solid var(--border); color:var(--muted); font:inherit; font-size:13px;
+    padding:7px 14px; border-radius:9px; cursor:pointer; }
+  .cover-top .themeToggle:hover { color:var(--text); }
+
+  .hero { max-width:760px; margin:0 auto; padding:40px 22px 8px; text-align:center; }
+  .hero .kicker { font-size:12px; font-weight:700; letter-spacing:.22em; text-transform:uppercase;
+    color:var(--accent); margin:0 0 14px; }
+  .hero h1 { font-size:clamp(34px,7vw,60px); line-height:1.08; margin:0 0 16px;
+    font-weight:800; letter-spacing:-.02em; }
+  .hero .lead { font-size:16px; color:var(--muted); margin:0 auto 30px; max-width:560px; line-height:1.7; }
+  .cta-row { display:flex; gap:14px; justify-content:center; flex-wrap:wrap; }
+  .cta {
+    display:inline-flex; align-items:center; justify-content:center; gap:9px;
+    text-decoration:none; font-size:15px; font-weight:700;
+    padding:15px 28px; border-radius:11px; transition:.15s;
+    min-width:230px;
+  }
+  .cta .ic { transition:transform .15s; }
+  .cta:hover .ic { transform:translateX(3px); }
+  .cta.primary { background:var(--accent); color:var(--accent-text); }
+  .cta.primary:hover { filter:brightness(1.05); transform:translateY(-1px); }
+  .cta.secondary { background:transparent; color:var(--text);
+    border:1px solid color-mix(in srgb,var(--accent) 45%,var(--border)); }
+  .cta.secondary:hover { border-color:var(--accent); color:var(--accent); transform:translateY(-1px); }
+  @media (max-width:480px){ .cta-row { flex-direction:column; } .cta { width:100%; min-width:0; } }
+
+  .cover-main { max-width:920px; margin:0 auto; padding:48px 22px 90px; }
+  .cover-sec { margin-bottom:46px; }
+  .cover-sec > h2 { font-size:22px; margin:0 0 6px; padding-left:14px; border-left:3px solid var(--accent); }
+  .cover-sec > .sub { color:var(--muted); margin:0 0 22px; padding-left:14px; font-size:14px; }
+
+  .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:14px; }
+  .tile { background:var(--card); border:1px solid var(--border); border-radius:13px;
+    padding:18px 20px; box-shadow:var(--shadow); }
+  .tile h3 { margin:0 0 6px; font-size:15px; display:flex; align-items:center; gap:8px; }
+  .tile p { margin:0; font-size:13px; color:var(--muted); line-height:1.65; }
+  .tile .dot { width:8px; height:8px; border-radius:50%; background:var(--accent); flex:none; }
+
+  .best { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+  .best .col { background:var(--card); border:1px solid var(--border); border-radius:13px;
+    padding:20px 22px; box-shadow:var(--shadow); }
+  .best .col h3 { margin:0 0 12px; font-size:15px; }
+  .best ul { margin:0; padding:0; list-style:none; }
+  .best li { display:flex; gap:9px; align-items:flex-start; padding:7px 0;
+    font-size:14px; border-bottom:1px solid var(--border); }
+  .best li:last-child { border-bottom:none; }
+  .best li .ic { color:var(--accent); margin-top:3px; flex:none; font-size:15px; }
+  .best li small { display:block; color:var(--muted); font-size:12px; margin-top:1px; }
+
+  .levelguide { background:color-mix(in srgb,var(--accent) 7%,var(--card));
+    border:1px solid color-mix(in srgb,var(--accent) 25%,var(--card));
+    border-radius:13px; padding:20px 24px; }
+  .levelguide h3 { margin:0 0 8px; font-size:15px; }
+  .levelguide p { margin:0 0 6px; font-size:14px; color:var(--text); line-height:1.7; }
+  .levelguide b { color:var(--accent); }
+
+  .cover-foot { text-align:center; color:var(--muted); font-size:13px; padding:30px 0 60px; }
+  @media (max-width:620px){ .best { grid-template-columns:1fr; } }
