@@ -5,14 +5,15 @@
 > エージェントへ: スタイル生成・変更時は本書のトークンとルールに従い、「Don'ts」に反しないこと。
 
 テーマは **Crisp Editorial** — 白い地に、高コントラストの濃色テキストと爽やかなスカイブルーのアクセント。「くっきり・はっきり・爽やか」を基調にしつつ、静かでエディトリアルな組版を保つ。
-本サイトは **モバイル専用レイアウト**（モバイルファースト）。`body` は `width: 100%` で画面幅にフィットし、フォントサイズ・余白・カラム数だけをモバイル向けに固定している。PC 向けレスポンシブ分岐（`@media (min-width: *)` / `clamp(...)` 等）は使わないが、固定幅でストリップにもしない。
+本サイトは **モバイルファースト responsive** レイアウト。`body` は `width: 100%` で画面幅にフィットし、ブレークポイント tablet (`min-width: 768px`) / desktop (`min-width: 1100px`) の2点でカラム数・余白を段階的に拡大する。fluid な `clamp()` を余白・Hero見出しに併用して滑らかな変化を実現する。
 値は実装（`globals.css` / `*.module.css`）から転記している（理想形ではなく出荷済みの状態を記す）。
 
 ## 1. Product & Principles
 - プロダクト: Shogo Kamino のフロントエンド・ポートフォリオ。
   就職・転職で採用担当者にスキルと丁寧さを示すための個人サイト。
 - 対象読者: 採用担当・エンジニア。短時間で「作れること」と「美意識」を伝える。
-- フォーマット: **モバイル専用**（画面幅に追従 / 単一カラム / モバイル向け固定サイズ）。
+- フォーマット: **モバイルファースト responsive**（tablet 768+ / desktop 1100+）。
+  モバイル（〜767px）: 単一カラム / tablet（768〜1099px）: 余白拡大・一部2col / desktop（1100px〜）: 2〜3col に展開。
 - トーン: 涼しく爽やかでエディトリアル（雑誌的・上品）。大きなセリフのステートメント（Hero）で印象づける。
 
 ### デザイン原則（迷ったら、この順で優先する）
@@ -41,13 +42,16 @@
 ルール: アクセントはスカイブルー1色のみ。新規アクセント色を導入しない。
 
 ## 3. Typography
-2書体のみ。新しいフォントを足さない。フォントサイズは原則 **モバイル前提の固定値**。`clamp(...)` は本文・補助テキストには使わない（例外: §4 のメニューパネルのリンク見出し / 余白）。
-- `--serif`: "Cormorant Garamond" (500/600/700, next/font で自己ホスト), "Hiragino Mincho ProN", serif
+2書体のみ。新しいフォントを足さない。フォントサイズは原則 **モバイル前提の固定値**。`clamp(...)` は本文・補助テキストには使わない（例外: §4 のメニューパネルのリンク見出し / Hero statement / 余白）。
+
+> **2026-06-12 移行メモ**: Cormorant Garamond のオールドスタイル数字が日本語混植で潰れる課題により、serif を Spectral へ移行。Spectral は lining figures が標準のため数字可読性が向上する。
+
+- `--serif`: "Spectral" (400/500/600/700, next/font で自己ホスト), "Hiragino Mincho ProN", serif
 - `--sans` : -apple-system, "Hiragino Sans", "Noto Sans JP", sans-serif
 
 | スタイル名 | 用途 | 指定 |
 |---|---|---|
-| hero-statement | Hero の大見出し一文 | serif 500 / 38px / line-height 1.15 / max-width 14ch |
+| hero-statement | Hero の大見出し一文 | serif 500 / clamp(38px, 7.5vw, 110px) / line-height 1.15 / max-width 14ch |
 | hero-name | Hero の名前 | serif 600 / 18px / 字間 3px / 大文字 |
 | section-title | セクション見出し | serif 500 / 30px / line-height 1.2 |
 | work-name | 作品名 | serif 500 / 22px |
@@ -59,15 +63,17 @@
 ルール:
 - 見出し系は必ず serif、本文・ラベルは必ず sans。逆にしない。
 - 本文（prose）を大文字化しない。大文字＋広い字間は短いラベルだけ。
-- 本文・section-title 等の通常テキストには `clamp(...)` を使わない（モバイル固定値）。メニューの大リンクのみ §4 で `clamp(34px, 10vw, 64px)` を許可。
+- 本文・section-title 等の通常テキストには `clamp(...)` を使わない（モバイル固定値）。例外は2点: メニューの大リンク `clamp(34px, 10vw, 64px)` / Hero statement `clamp(38px, 7.5vw, 110px)`。
+- serif で digit を表示する箇所は tabular figures を有効化する。Spectral は lining figures が標準のため `lining-nums` の強制は不要だが、`tabular-nums` による等幅揃えは引き続き明示する（`font-variant-numeric: lining-nums tabular-nums` + `font-feature-settings: "lnum" 1, "tnum" 1`）。対象: Work 一覧の番号（`.no`）、Work モーダルタイトル（`.modalTitle`）、Footer メールリンク（`.mail`）など。
 
 ## 4. Components & Layout
 - 角丸は使わない（`border-radius: 0` が基本）。直線・罫線で構成する。
 - **キャンバス**: `body` は `width: 100% / overflow-x: hidden`。画面幅に追従。`html` にも `overflow-x: hidden` と `-webkit-text-size-adjust: 100%` を指定
-- セクション共通: 余白は **fluid clamp** で全画面サイズに追従。
-  左右 `clamp(24px, 7vw, 80px) + env(safe-area-inset-*)` / 上下 `clamp(80px, 12vw, 140px)` / 上罫線1px(`--line`)
+- セクション共通: 余白は **fluid clamp** で全画面サイズに追従し、768/1100 ブレークポイントで段階的に拡大。
+  - mobile: 左右 `clamp(28px, 7vw, 80px)` / 上下 `clamp(80px, 12vw, 140px)` / 上罫線1px(`--line`)
+  - tablet (768+): 左右 `clamp(48px, 8vw, 100px)` / 上下 `clamp(100px, 13vw, 160px)`
+  - desktop (1100+): 左右 `clamp(80px, 9vw, 140px)` / 上下 `clamp(100px, 11vw, 140px)`
   - 余白方針: 「どの画面サイズでも十分な余白を保つ」。小画面では密度が上がりすぎない最低値、大画面では間延びしない上限値を設定する
-  - `@media (min-width:*)` のブレークポイント分岐は依然不使用。clamp による単一スタイルで滑らかに変化させる
   - 横向き iPhone 等の左右セーフエリアにも `env(safe-area-inset-left/right)` で対応
 - ページ構成（順序固定）: Hero → 01 About → 02 Tools → 03 Work → Footer(Contact統合)
 - ナビ: 上部固定（`position: fixed / inset: 0 0 auto 0 / z-index: 60`）で画面幅100%。**ハンバーガー型**（モバイル特化のため inline リンクは廃止）。
@@ -91,20 +97,33 @@
   - 閉操作: ハンバーガー再タップ / Esc / オーバーレイ余白タップ / リンクタップ
   - 開いている間は `body { overflow: hidden }` で背景スクロール停止
   - a11y: `aria-expanded` / `aria-controls="primary-menu"` / `aria-label` / `aria-hidden`
-- Hero: min-height 100dvh / 中央（ステートメント型）。padding 100px 24px 80px。並び順固定:
+- Hero: min-height 100dvh / 中央（ステートメント型）。並び順固定:
   kicker → 大きなセリフの一文 → 罫線(48×1px, accent) → 名前 → 肩書き → Scrollキュー
+  - **statement サイズ**: `clamp(38px, 7.5vw, 110px)` で mobile=38px → tablet≈57px → desktop=110px に流体変化
+  - **余白**: mobile: padding `clamp(100px,14vw,160px)` top、tablet(768+)・desktop(1100+) で段階的に拡大
   - **背景**: `::before` に accent と paper-card の radial-gradient を重ね、
     blur(40px) で輪郭を溶かす。22s ease-in-out alternate で位置・回転・拡縮を
-    ゆっくり動かす（heroDrift）。`prefers-reduced-motion` で停止。Hero 内に
+    ゆっくり動かす（heroDrift）。tablet+ では `inset: -20%` でスケール調整。`prefers-reduced-motion` で停止。Hero 内に
     限定し、他セクションへ持ち込まない
-- Tools: 6グループを縦並び。**最初のグループ `AI / Agent (main)` を主軸として配置**
+- Tools: 6グループを縦並び（mobile）/ 2col grid（tablet 768+）/ 3col grid（desktop 1100+）。
+  **最初のグループ `AI / Agent (main)` を主軸として配置**
   （Claude Code / Claude API / Prompt Engineering / AI Agent Design / MCP / Subagents・Workflows）。
   以下 Languages / Frameworks / Styling / Backend / Tooling。
-  各 group は上罫線1px・eyebrow ラベル・serif 18px の `/` 区切りで項目を並べる
-- Work: 2列 grid「番号 / 名前+説明」。padding 22px 6px。矢印アイコンは廃止（モバイルでは非表示）。
-  各項目は `/work/[slug]` のケーススタディへリンク。
-  hover/active = 背景 `--paper-card`・左padding 14px・名前 accent
-- Footer（Contact 統合）: 上罫線1px / padding 上 `clamp(70px,11vw,120px)` / 左右 `clamp(24px,7vw,80px) + env(safe-area-inset-*)` / 下 `clamp(36px,5vw,56px) + env(safe-area-inset-bottom)` /
+  各 group は上罫線1px・eyebrow ラベル・serif 18px の `/` 区切りで項目を並べる。
+  tablet+ では `.group` に `min-height: 132px` を付与し、row 内で最大グループと高さを揃えて縦罫線が一直線に見えるようにする（`.grid` は `align-items: stretch` を明示）。
+- Work: 1col list（mobile）/ 2col grid（tablet 768+）/ 3col grid（desktop 1100+）。各 item のセル間は罫線で区切る。
+  各項目の組版「番号 / 名前+説明」は grid 化後も崩さない。`<button>` でモーダルを開く。`/work/[slug]` は直接URL用に残置。
+  hover/active/focus-visible = 背景 `--paper-card`・左padding 14px・名前 accent
+- **Workモーダル**: ネイティブ `<dialog>` を `showModal()` で開く。中央寄せ（`place-items: center`）の全面オーバーレイ。
+  - 背景: `::backdrop` を `rgba(14,18,23,.4)`（blur なし）
+  - パネル: 幅100% / `max-width: 460px`（mobile）/ `max-width: 560px`（tablet 768+）/ `max-width: 640px`（desktop 1100+）/ `max-height: 92dvh` / 背景 `--paper` / mobile: 上罫線1px / tablet+: 四辺1px罫線 / padding 18px 20px 24px。内容が長い場合のみ `overflow-y: auto`
+  - 構成（上から）: eyebrow（`{No.} — Selected Work`, 10px accent）と `×` 閉じ → serif タイトル 26px → meta `Year · Stack`（sans 11px, muted）+ 下罫線 → 概要（sans 13px）→ ラベル「実装」+ 箇条書き（12.5px）→ ラベル「学び」+ テキスト（12.5px）→ 下罫線 + **Demo / Source CTA**
+  - CTA（`Live demo ↗` / `Source ↗`）: モバイル前提のため hover に依存しない設計。静止時から **accent 矢印が右上 (+2/-2px) に既に出ている**＋テキストは ink + 下に薄罫線。**モーダル展開時に一度だけ** 下の罫線が左→右へ accent 色で wipe（0.7s cubic-bezier、delay 0.18s、メニュー stagger と同種の一回限り）。`:active`/`:focus-visible` で矢印がさらに +5/-5px に進み（0.22s）、テキストも accent に。`prefers-reduced-motion` で線は即座に scaleX(1)、transition なし
+  - 設計意図: スクロールせずに一目で把握できるよう、タイポと余白をケーススタディページ（`/work/[slug]`）よりひと回りコンパクトに固定
+  - 閉じ操作: `×` ボタン / Esc（`<dialog>` 既定）/ パネル外余白タップ（`e.target === dialog` で判定）
+  - a11y: `aria-labelledby` で serif タイトルを参照、`×` は `aria-label="閉じる"`、`focus-visible` で accent 化
+- About: desktop (1100+) でタイトル左列 / 本文右列の 2col grid（DOM 変更なし・CSSのみ）。Section に `className` を渡して section 全体を `display: grid / grid-template-columns: 1fr 1fr` に。
+- Footer（Contact 統合）: 上罫線1px。padding は Section と同じ方針で 768/1100 で段階的に拡大。左右: mobile `clamp(28px,7vw,80px)` / tablet `clamp(48px,8vw,100px)` / desktop `clamp(80px,9vw,140px)` /
   「Contact」eyebrow → serif メールリンク（word-break: break-all）→
   X・Instagram の SVG アイコン（currentColor、**44×44** のヒット領域、ホバーで accent。`socials` リストに `margin: 0 -10px` を当てて見た目の位置を維持）
   / 下段に © と Back to top
@@ -121,7 +140,7 @@
 ### 文字
 - 本文を serif にしない／見出しを sans にしない。
 - 本文を大文字化・広い字間にしない（大文字＋字間は短いラベルだけ）。
-- フォントを追加しない（Cormorant Garamond ＋ システムフォントのみ）。
+- フォントを追加しない（Spectral ＋ システムフォントのみ）。
 - フォントサイズに `clamp(...)` を持ち込まない（モバイル固定値で統一）。
 
 ### レイアウト・装飾
@@ -129,8 +148,9 @@
 - drop shadow・box-shadow・グラデーションを **§4 で認可された箇所以外** で足さない
   （認可: Hero 背景アニメ、scrolled Nav のフロストガラス、メニューパネルのフロストガラス）。それ以外はフラットを保つ。
 - セクションを「囲み枠・ベタ塗りボックス」で区切らない。区切りは上罫線のみ。
+  例外: Work モーダル tablet+ の四辺 1px 罫線（§4 で認可済み）。
 - アイコンを増やさない。許可済み: フッターの SNS（X / Instagram、currentColor）、ハンバーガーの細罫線3本。絵文字は使わない。
-- **PC/タブレット向けのブレークポイント分岐を増やさない**（`@media (min-width:*)` / `max-width: 1100px` 等のデスクトップ用記述は廃止）。ただし **fluid な `clamp(...)` は余白・メニューの大リンクに限り使用可**（単一スタイルで滑らかに変化させる目的に限定）
+- **ブレークポイントは tablet `768px` / desktop `1100px` の2点のみ使用可**。それ以外の `@media (min-width:*)` は追加しない。`clamp(...)` は余白・Hero statement・メニューの大リンクに限り使用可（単一スタイルで滑らかに変化させる目的に限定）。
 
 ### モーション
 - 演出を **無闇に** 増やさない。動きは以下に限定する:
@@ -140,6 +160,7 @@
   - Nav scrolled のトランジション（0.35s）
   - ハンバーガー3本線 → X 字変形（0.42s cubic-bezier）
   - メニューパネルのフェード＋小 translateY、リンクの stagger 立ち上がり
+  - Workモーダル CTA の下線 wipe（モーダル展開時の一回限り）＋ 矢印スライド（:active/focus-visible のタクタイル）
   - smooth scroll
 - パララックス・派手なスクロールアニメ・過剰なホバーは引き続き禁止。
 - `prefers-reduced-motion` を無視するアニメを書かない（Hero 背景もこの設定で停止）。
@@ -151,11 +172,17 @@
 ## 技術メモ
 - Next.js 16 (App Router) + TypeScript + React 19。
 - スタイルは `globals.css`（トークン・base・共通ユーティリティ）＋ コンポーネントごとの CSS Modules。Tailwind 不使用。
-- フォントは next/font で Cormorant Garamond を自己ホスト（`--font-cormorant`）。新しい依存・UIライブラリを足さない。
+- フォントは next/font で Spectral を自己ホスト（`--font-spectral`）。新しい依存・UIライブラリを足さない。
 - インタラクティブ部分（出現アニメ `Reveal` / ナビ現在地・スクロール検知 `Nav`）のみ `'use client'`。
 - viewport は `app/layout.tsx` で `export const viewport` により `width: device-width / initialScale: 1 / viewportFit: cover` を明示。
 
 ## Changelog
+- 2026-06-12: serif フォントを Cormorant Garamond → Spectral へ差し替え（数字可読性改善）。`--font-cormorant` → `--font-spectral`、`--serif` トークンのフォールバックも更新。§3 Typography の lining figures ルールを Spectral 標準 lining 前提に緩め、`tabular-nums` のみ引き続き明示。§5 Don'ts のフォント名も更新。Work.module.css / Footer.module.css の `font-variant-numeric` 宣言は維持（tabular-nums のメリット保持）。
+- 2026-06-12: モバイル専用 → responsive (768 / 1100) に拡張。Hero statement を `clamp(38px, 7.5vw, 110px)` で流体化。About desktop に 2col grid（タイトル左 / 本文右）。Tools を tablet 2col / desktop 3col grid 化。Work 一覧を tablet 2col / desktop 3col grid 化（罫線・組版維持）。Work モーダルを tablet+ で中央カード化（四辺罫線 / 560px / 640px）。Section・Hero・Footer の余白を 768/1100 で段階的に拡大。全アニメーションに `prefers-reduced-motion` 尊重を維持。design.md §1・§3・§4・§5 を同期更新。
+- 2026-06-12: Tools tablet 2col / desktop 3col に縦罫線（border-left + padding-left 24px）を追加し隣接カラムを視覚分離。About desktop grid 比率を `1fr 1fr` → `5fr 7fr` に調整（本文寄り）。Work `.no` / `.modalTitle` に `lining-nums tabular-nums` を適用しオールドスタイル数字を解消。design.md §3 Typography に lining figures ルール、§5 Don'ts に Work モーダル四辺罫線の例外を追記。
+- 2026-06-12: Tools `.group` に `min-height: 132px` + `.grid` に `align-items: stretch` を追加し row 間の縦罫線段違いを解消。Section desktop 上下余白を `clamp(120px,14vw,180px)` → `clamp(100px,11vw,140px)` に縮小。Footer `.mail` に `lining-nums tabular-nums` を適用し数字の可読性向上。design.md §3・§4 を同期更新。
+- 2026-06-12: Hero の statement を「It takes / more than one.」、肩書きを **AI Orchestrator** に。About のタイトルを「AI を束ねる。人は 1 人。」、本文を HTML/CSS/JavaScript からの導入＋バックエンド・DB の並行学習に書き直し。
+- 2026-06-12: Work 一覧の各項目をネイティブ `<dialog>` のモーダル開閉に変更（`<button>` 化）。スクロールせず一目で把握できるコンパクト構成（460px / 92dvh / 上罫線1px、`::backdrop` は blur なしの半透明）。`/work/[slug]` は直接URL用に残置。
 - 2026-06-02: タップターゲット / セーフエリア / ハンバーガー位置の3点を修正。Footer の SNS ヒット領域を 36→44 化（gap を 14→8 + リストに `-10px` 負マージンで見た目位置を維持）、Nav ハンバーガーの `margin-right:-10px` を撤去して Nav padding 内に収め、Nav・Panel・Hero・Section・Footer の padding に `env(safe-area-inset-*)` を加算（iOS ノッチ/Dynamic Island/横向きセーフエリアで切れないように）。
 - 2026-06-02: ヘッダーの brand を「Shogo Kamino」テキストから **"SK" モノグラム SVG ロゴ**（36×36）へ刷新。1px の正方形フレーム + 中央 0.5px の薄罫 + serif の "S"/"K"。`components/Logo.tsx` に切り出し、`currentColor` で色継承して hover で `--accent`。ハンバーガーの細罫線3本とロゴの罫線フレームが視覚的に対称になるよう設計。
 - 2026-06-02: セクション名「Skills」を「Tools」へ改称（title「使っている道具。」と一直線に揃える目的）。コンポーネントファイル名 Skills.tsx/Skills.module.css → Tools.tsx/Tools.module.css、id="skills"→"tools"、Nav リンク・メニューパネルの番号 02 も Tools に更新。

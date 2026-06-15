@@ -5,6 +5,60 @@
   gap: 22px;
 }
 
+/* tablet (768+): 2col grid */
+@media (min-width: 768px) {
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    align-items: stretch;
+  }
+
+  .group {
+    padding-top: 14px;
+    padding-bottom: 14px;
+    /* 右列は左列の罫線に視覚的に揃えるため右padding */
+    padding-right: 24px;
+    /* 縦の境界線: 全 group に左罫線 */
+    border-left: 1px solid var(--line);
+    padding-left: 24px;
+    min-height: 132px;
+  }
+
+  /* 各行の最左 group（奇数番）は左罫線なし */
+  .group:nth-child(odd) {
+    border-left: none;
+    padding-left: 0;
+  }
+}
+
+/* desktop (1100+): 3col grid */
+@media (min-width: 1100px) {
+  .grid {
+    grid-template-columns: 1fr 1fr 1fr;
+    align-items: stretch;
+  }
+
+  /* 3col: 全 group に左罫線 */
+  .group {
+    border-left: 1px solid var(--line);
+    padding-left: 24px;
+    min-height: 132px;
+  }
+
+  /* tablet の :nth-child(odd) を打ち消す（cells 3, 5 に border-left を戻す） */
+  .group:nth-child(odd) {
+    border-left: 1px solid var(--line);
+    padding-left: 24px;
+  }
+
+  /* 各行の最左 group（3n+1 番）は左罫線なし */
+  .group:nth-child(3n+1) {
+    border-left: none;
+    padding-left: 0;
+  }
+}
+
 .group {
   display: flex;
   flex-direction: column;

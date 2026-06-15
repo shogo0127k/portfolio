@@ -17,8 +17,14 @@
   grid-template-columns: auto minmax(0, 1fr);
   align-items: start;
   gap: 4px 20px;
+  width: 100%;
   padding: 22px 6px;
+  background: none;
+  border: 0;
+  text-align: left;
+  font: inherit;
   color: var(--ink);
+  cursor: pointer;
   transition:
     background 0.3s ease,
     padding 0.3s ease;
@@ -31,9 +37,11 @@
 }
 
 .link:hover,
-.link:active {
+.link:active,
+.link:focus-visible {
   background: var(--paper-card);
   padding-left: 14px;
+  outline: none;
 }
 
 .no {
@@ -43,6 +51,8 @@
   font-family: var(--serif);
   font-size: 13px;
   color: var(--muted);
+  font-variant-numeric: lining-nums tabular-nums;
+  font-feature-settings: "lnum" 1, "tnum" 1;
 }
 
 .name {
@@ -56,7 +66,8 @@
 }
 
 .link:hover .name,
-.link:active .name {
+.link:active .name,
+.link:focus-visible .name {
   color: var(--accent);
 }
 
@@ -69,6 +80,268 @@
   line-height: 1.5;
 }
 
-.arrow {
-  display: none;
+/* ---------- tablet (768+): 2col grid ---------- */
+@media (min-width: 768px) {
+  .list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    /* 横並びのセル間に罫線を引く */
+    column-gap: 0;
+    row-gap: 0;
+  }
+
+  /* 奇数列(左)のセルに右罫線 */
+  .item:nth-child(odd) {
+    border-right: 1px solid var(--line);
+  }
+
+  /* 最後の子が奇数（左列）で孤立するとき、下罫線のみ追加 */
+  .item:last-child:nth-child(odd) {
+    border-right: 0;
+  }
+}
+
+/* ---------- desktop (1100+): 3col grid ---------- */
+@media (min-width: 1100px) {
+  .list {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+
+  /* 3col: 3の倍数でない列に右罫線 */
+  .item:nth-child(odd) {
+    border-right: none;
+  }
+
+  .item:not(:nth-child(3n)) {
+    border-right: 1px solid var(--line);
+  }
+}
+
+/* ---------- Modal ---------- */
+
+.dialog {
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  max-height: 100%;
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  border: 0;
+  color: var(--ink);
+}
+
+.dialog[open] {
+  display: grid;
+  place-items: center;
+}
+
+.dialog::backdrop {
+  background: rgba(14, 18, 23, 0.4);
+}
+
+.modal {
+  width: 100%;
+  max-width: 460px;
+  max-height: 92dvh;
+  overflow-y: auto;
+  background: var(--paper);
+  padding: 18px 20px 24px;
+  border-top: 1px solid var(--line);
+  -webkit-overflow-scrolling: touch;
+}
+
+.modalHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.modalEyebrow {
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.close {
+  background: none;
+  border: 0;
+  color: var(--ink);
+  font-size: 24px;
+  line-height: 1;
+  padding: 4px 8px;
+  margin: -4px -8px -4px 0;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.close:hover,
+.close:focus-visible {
+  color: var(--accent);
+  outline: none;
+}
+
+.modalTitle {
+  margin: 0 0 6px;
+  font-family: var(--serif);
+  font-weight: 500;
+  font-size: 26px;
+  line-height: 1.2;
+  letter-spacing: 0.2px;
+  font-variant-numeric: lining-nums tabular-nums;
+  font-feature-settings: "lnum" 1, "tnum" 1;
+}
+
+.modalMeta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 0 0 14px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--line);
+  font-size: 11px;
+  letter-spacing: 0.4px;
+  color: var(--muted);
+}
+
+.modalLead {
+  margin: 0 0 16px;
+  font-size: 13px;
+  line-height: 1.65;
+  color: var(--ink-soft);
+}
+
+.modalBlock {
+  margin-bottom: 14px;
+}
+
+.modalBlock:last-of-type {
+  margin-bottom: 16px;
+}
+
+.modalLabel {
+  margin: 0 0 6px;
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.modalList {
+  margin: 0;
+  padding-left: 1.05em;
+  font-size: 12.5px;
+  line-height: 1.6;
+  color: var(--ink-soft);
+}
+
+.modalList li {
+  margin: 0 0 4px;
+}
+
+.modalList li:last-child {
+  margin-bottom: 0;
+}
+
+.modalText {
+  margin: 0;
+  font-size: 12.5px;
+  line-height: 1.6;
+  color: var(--ink-soft);
+}
+
+.modalLinks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px 24px;
+  margin-top: 4px;
+  padding-top: 12px;
+  border-top: 1px solid var(--line);
+}
+
+.cta {
+  position: relative;
+  display: inline-flex;
+  align-items: baseline;
+  gap: 10px;
+  padding: 6px 2px 8px;
+  font-size: 11px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--ink);
+  transition: color 0.2s ease;
+}
+
+.cta::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1px;
+  background: var(--accent);
+  transform-origin: left center;
+  transform: scaleX(0);
+  animation: ctaLineIn 0.7s cubic-bezier(0.7, 0, 0.2, 1) 0.18s forwards;
+  pointer-events: none;
+}
+
+@keyframes ctaLineIn {
+  to {
+    transform: scaleX(1);
+  }
+}
+
+.ctaLabel {
+  position: relative;
+  z-index: 1;
+}
+
+.ctaArrow {
+  display: inline-block;
+  font-size: 13px;
+  line-height: 1;
+  color: var(--accent);
+  transform: translate(2px, -2px);
+  transition: transform 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.cta:active,
+.cta:focus-visible {
+  color: var(--accent);
+  outline: none;
+}
+
+.cta:active .ctaArrow,
+.cta:focus-visible .ctaArrow {
+  transform: translate(5px, -5px);
+}
+
+/* ---------- tablet (768+): モーダルを中央カード化 ---------- */
+@media (min-width: 768px) {
+  .modal {
+    max-width: 560px;
+    /* mobile の border-top のみ → tablet+ は四辺に罫線 */
+    border: 1px solid var(--line);
+  }
+}
+
+/* ---------- desktop (1100+): カード幅を広げる ---------- */
+@media (min-width: 1100px) {
+  .modal {
+    max-width: 640px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cta::after {
+    animation: none;
+    transform: scaleX(1);
+  }
+  .cta,
+  .ctaArrow {
+    transition: none;
+  }
 }

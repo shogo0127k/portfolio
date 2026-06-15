@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import Logo from "./Logo";
 import styles from "./Nav.module.css";
 
@@ -59,14 +60,14 @@ export default function Nav() {
   return (
     <>
       <header className={`${styles.nav} ${scrolled || open ? styles.scrolled : ""}`.trim()}>
-        <a
+        <Link
           className={styles.brand}
           href="/#top"
           aria-label="Shogo Kamino — Home"
           onClick={() => setOpen(false)}
         >
           <Logo size={36} />
-        </a>
+        </Link>
         <button
           type="button"
           className={`${styles.toggle} ${open ? styles.toggleOpen : ""}`.trim()}

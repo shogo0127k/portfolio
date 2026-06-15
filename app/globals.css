@@ -1,7 +1,7 @@
 /* Shogo Kamino — Portfolio (Next.js) / テーマ: Crisp Editorial
-   モバイル専用レイアウト（モバイルファースト）。body は画面幅 100% に追従し、
-   フォントサイズ・余白・カラム数だけをモバイル向けに固定。
-   PC 向けレスポンシブ分岐（@media min-width / clamp）は使わない。 */
+   モバイルファースト responsive レイアウト。
+   ブレークポイント: tablet 768px / desktop 1100px の 2 点のみ使用。
+   それ以外のブレークポイントは追加しない。fluid な clamp() を余白・見出しに併用。 */
 
 :root {
   --paper: #ffffff;
@@ -11,9 +11,12 @@
   --muted: #7c8893;
   --line: rgba(14, 18, 23, 0.12);
   --accent: #0a93d1;
-  /* --font-cormorant は layout.tsx の next/font が注入 */
-  --serif: var(--font-cormorant), "Cormorant Garamond", "Hiragino Mincho ProN", serif;
+  /* --font-spectral は layout.tsx の next/font が注入 */
+  --serif: var(--font-spectral), "Spectral", "Hiragino Mincho ProN", serif;
   --sans: -apple-system, "Hiragino Sans", "Noto Sans JP", sans-serif;
+
+  /* コンテナ幅上限トークン */
+  --container-max: 1200px;
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }

@@ -6,13 +6,13 @@ export default function Hero() {
       <div className={styles.inner}>
         <p className={styles.kicker}>Portfolio — 2026</p>
         <h1 className={styles.statement}>
-          Learning by building,
+          It takes
           <br />
-          one page at a time.
+          more than one.
         </h1>
         <span className={styles.rule} aria-hidden="true" />
         <p className={styles.name}>Shogo Kamino</p>
-        <p className={styles.role}>Front-End Developer</p>
+        <p className={styles.role}>AI Orchestrator</p>
       </div>
 
       <a className={styles.cue} href="#about" aria-label="下へスクロール">

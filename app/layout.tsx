@@ -1,17 +1,17 @@
 import type { Metadata, Viewport } from "next";
-import { Cormorant_Garamond } from "next/font/google";
+import { Spectral } from "next/font/google";
 import "./globals.css";
 
-const cormorant = Cormorant_Garamond({
-  weight: ["500", "600", "700"],
+const spectral = Spectral({
+  weight: ["400", "500", "600", "700"],
   subsets: ["latin"],
-  variable: "--font-cormorant",
+  variable: "--font-spectral",
   display: "swap",
 });
 
 export const metadata: Metadata = {
   title: "Shogo Kamino — Portfolio",
-  description: "Front-End Developer — Shogo Kamino のポートフォリオ。",
+  description: "AI Orchestrator — Shogo Kamino のポートフォリオ。",
 };
 
 export const viewport: Viewport = {
@@ -26,8 +26,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ja" className={cormorant.variable}>
-      <body>{children}</body>
+    <html lang="ja" className={spectral.variable}>
+      <body suppressHydrationWarning>{children}</body>
     </html>
   );
 }
