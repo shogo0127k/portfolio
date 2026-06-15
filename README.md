@@ -1,4 +1,6 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Shogo Kamino — Portfolio
+
+Crisp Editorial をテーマにしたフロントエンド・ポートフォリオサイト。Next.js 16 (App Router) + React 19 + TypeScript で構築。デザイン仕様は [`design.md`](./design.md) を参照。
 
 ## Getting Started
 
